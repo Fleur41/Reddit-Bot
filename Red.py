@@ -15,3 +15,14 @@ def reddit_bot(sub, trigger_phrase):
         password = 'your_pw',
         user_agent = 'your_user_agent'
     )
+
+    subreddit = reddit.subreddit(sub)
+    dict_suggest = enchant.Dict('en_US')
+
+    for comment in subreddit.stream.comments():
+        if trigger_phrase in comment.body.lower():
+            word = comment.body.replace(trigger_phrase, '')
+            reply_text = ''
+            similar_words = dict_suggest.suggest(word)
+            for similar in similar_words:
+                
